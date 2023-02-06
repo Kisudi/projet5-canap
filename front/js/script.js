@@ -1,5 +1,7 @@
 //je Cherche les produits sur mon API avec la méthode fetch
-fetch("http://localhost:3000/api/products")
+fetch("http://localhost:3000/api/products",{
+   method: "get"
+})
    .then((res) => res.json())
    .then((data) => 
    {
