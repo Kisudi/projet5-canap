@@ -5,7 +5,6 @@ fetch(`http://localhost:3000/api/products/${id}`)
    .then((res) => res.json())
    .then((product) =>
     {
-      console.log("product", product)
       
       display(product)
       listenforcart(product)
@@ -44,12 +43,12 @@ function listenforcart(product)
         const quant =document.querySelector("#quantity").value
         //La condition renvoie une alerte pour que l'utilisateur selectonne au moins une couleur et une quantiter 
         if(color.length ===0){
-          alert('selectionner une couleur')
+          alert('Selectionner une couleur')
           return
         }
         if (quant < 1 || quant> 100)
         {
-          alert('Ajouer un produit entre 1 et 100')
+          alert('Ajouter un produit entre 1 et 100')
           return
         }
         /*La condition permet à ce que le panier soit bien structurer, 
@@ -85,7 +84,7 @@ function listenforcart(product)
         }
         //Ici je sauvegarde les produits commandés pour l'afficher par la suite sur la page panier
         localStorage.setItem("products", JSON.stringify(products))
-        alert('vous serez dirigé vers la page produit')
+        alert('vous serez dirigé vers le panier')
         window.location.href ="cart.html"
 
        

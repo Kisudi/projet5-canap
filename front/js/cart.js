@@ -157,7 +157,6 @@ function saveorder(products)
             .then((res)=> res.json())
             .then((data) =>
             {
-                console.log(data);
                 window.location.href ="confirmation.html?order=" + data.orderId
             })
                   
@@ -190,18 +189,13 @@ function showError (fieldName, message){
 
 function isfirstNamevalid() {
     const firstName = document.querySelector("#firstName").value.trim(" ")
-    
-    if (firstName.length < 3){
-        return false
-    }
-    return true;
+    let regex =/^[a-zéèçà]{2,50}(-| )?([a-zéèçà]{2,50})?(-| )?([a-zéèçà]{2,50})?$/gmi
+    return regex.test(firstName) 
 }
 function islastNamevalid() {
     const lastName = document.querySelector("#lastName").value.trim(" ")
-    if (lastName.length < 3){
-        return false
-    }
-    return true;
+    let regex =/^[a-zéèçà]{2,50}(-| )?([a-zéèçà]{2,50})?(-| )?([a-zéèçà]{2,50})?$/gmi
+    return regex.test(lastName)    
 }
 function isaddressvalid() {
     const address = document.querySelector("#address").value.trim(" ")
@@ -215,16 +209,12 @@ function iscityvalid() {
     if (city.length < 3){
         return false
     }
-    return true;
+    return true;   
 }
 function isemailvalid(){
     
     const email = document.querySelector("#email").value.trim(" ")
     let regex =/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
-    if (regex.test(email)=== false){
-        
-        return false
-    }
-    return true;
+    return regex.test(email)  
 }
     
