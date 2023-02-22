@@ -30,10 +30,13 @@ function buildcompleteliste(all, cart) {
     });
     return list;
 }
+
 //L'enregistrement dans le localstorage
 function display(products) {
     products.forEach(product =>{
-        document.querySelector("#cart__items").innerHTML +=`
+        const div= document.createElement("div");
+        document.querySelector("#cart__items").appendChild(div)
+        div.innerHTML +=`
         <article class="cart__item" data-id="${product._id}" data-color="${product.color}">
             <div class="cart__item__img">
                 <img src="${product.imageUrl}" alt="Photographie d'un canapé">
@@ -64,9 +67,21 @@ function display(products) {
 function listenforqtychange(products) {
     products.forEach(product =>{
         const input = document.querySelector(`.cart__item[ data-id="${product._id}"][data-color="${product.color}"] .itemQuantity`)
-        input.addEventListener("input", (e)=>
+        input.addEventListener("change", (e)=>
         {
-            const newqty = e.target.value;
+            let newqty = Number(e.target.value);
+            if (newqty < 1 ||  newqty > 100)
+            {
+                alert('Désolé, vous devez choisir une quantité entre 1 et 100')
+                location.reload();
+                return;
+            }
+            if (!Number.isInteger(newqty))
+            {
+                newqty = Math.round(newqty);
+                alert('Vous ne pouvez ajouter une quantité de produit avec des décimales, la quantité sera donc arrondi à ' +  newqty)
+                
+            }
             const cart = JSON.parse(localStorage.getItem("products"));
             const item = cart.find(a=>a._id== product.id && a.color == product.color);
             item.qty =Number(newqty);
@@ -78,7 +93,7 @@ function listenforqtychange(products) {
     
 }
 
-//La fonction permet de supprimer des articles dans le panier
+//La fonction permet de supprimer l'article sélectionné dans le panier
 function deletefromcart(products) {
     products.forEach(product =>{
         const button = document.querySelector(`.cart__item[ data-id="${product._id}"][data-color="${product.color}"] .deleteItem `)
@@ -134,7 +149,7 @@ function saveorder(products)
             showError("email","Merci de corriger le champs ci-dessus");
             return;      
         } 
-        //
+        //Création d'un objet contact qui va récupèrer les informations du formulaire
         const contact = {
             firstName: firstName.value,
             lastName: lastName.value,
@@ -142,11 +157,13 @@ function saveorder(products)
             city : city.value, 
             email:email.value
         };
+        // la récupération des informations de l'article
         const ids = JSON.parse(localStorage.getItem("products")).map(a => a.id)
         const payload = {
             contact : contact,
             products: ids
         }
+        //L'affichage de numéro de commande
         fetch("http://localhost:3000/api/products/order",{
             method: "POST",
             body: JSON.stringify(payload ),
@@ -183,7 +200,7 @@ function showError (fieldName, message){
     document.querySelector('p#' + fieldName + 'ErrorMsg').innerText = message
 }
 
-/* j'ai utilisée le regex pour controler le noms et le mail
+/* j'ai utilisée le regex pour controler les noms et le mail
    - Et si le champ est mal saisie le message d'erreur devra s'affiché 
    -Et sinon le curseur passera au suivant, ou le formulaire va s'enregistrer*/
 

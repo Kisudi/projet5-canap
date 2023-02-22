@@ -1,4 +1,4 @@
-//L'affichage de numero de commande
+//La récupération et l'affichage de numéro de commande
 const id = getFromUrl('order');
 display(id)
 localStorage.clear();

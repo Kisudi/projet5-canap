@@ -9,19 +9,16 @@ fetch("http://localhost:3000/api/products",{
 // je fais une boucle pour afficher tous les produits
       data.forEach(product => 
          {
-         console.log(product)
-            const items = document.querySelector("#items")
-               items.innerHTML += `
-               <a href='./product.html?id=${product._id}'>
+            console.log(product)
+            const a = document.createElement("a")
+            a.setAttribute("href", `./product.html?id=${product._id}`)
+            document.querySelector("#items").appendChild(a)
+            a.innerHTML += `
                <article>
                   <img src="${product.imageUrl}" alT="Lorem ipsum dolor sit amet, Kanap name1"/>
                   <h3 class="productName">${product.name}"</h3>
                   <p class="productDescription">${product.description}"</p>
                </article>
-          </a> 
-      
-      `
-          
-   })
-
+            `           
+         })
    })
